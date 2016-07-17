@@ -5,6 +5,7 @@
 uint8_t errorCode = 0;
 
 SPI_FIFO_t3 mySPI = SPI_FIFO_t3(10,9);
+//SPI_FIFO_t3 mySPI = SPI_FIFO_t3(10, 6, 0, 32, 1); //SPI1
 
 
 void setup()
