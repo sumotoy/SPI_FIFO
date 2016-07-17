@@ -45,7 +45,7 @@ we have 2 basic type of functions, _cont and _last, _cont pull down CS, _last pu
 so _last must be used as last one, if you just have one trasfer, use always _last.
 It's important start with startTransaction and end with endTransaction!
 In this example a byte is tranfered using only CS (even you you are using the dc pin as well)
-If you want transfer a byte in command mode (such used in some OLED/TFT libraries), use:
+If you want transfer a byte in data mode (such used in some OLED/TFT libraries), use:
 mySPI.writeByte_last(data,true);
 */
 void writeByte(byte data)
