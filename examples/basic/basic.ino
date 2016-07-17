@@ -40,9 +40,14 @@ void loop()
 }
 
 /*
+writeByte_cont(data,dataMode)
+writeByte_last(data,dataMode)
+writeWord_cont(data,dataMode)
+writeWord_last(data,dataMode)
+dataMode default is false, mean command mode. This is true only when DC pin is configured or it will be ignored
 Here's an example of use, since we are using FIFO and the plan is use CS pin only when needed,
 we have 2 basic type of functions, _cont and _last, _cont pull down CS, _last pull Up it (disable)
-so _last must be used as last one, if you just have one trasfer, use always _last.
+after trasfer data so must be used as last one, if you just have one trasfer, use always _last.
 It's important start with startTransaction and end with endTransaction!
 In this example a byte is tranfered using only CS (even you you are using the dc pin as well)
 If you want transfer a byte in data mode (such used in some OLED/TFT libraries), use:
