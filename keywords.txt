@@ -1,4 +1,5 @@
 SPI_FIFO_t3	KEYWORD1
+postInstance	KEYWORD2
 begin	KEYWORD2
 setSpiSettings	KEYWORD2
 getSPIbus	KEYWORD2
@@ -10,4 +11,5 @@ writeByte_last	KEYWORD2
 writeWord_last	KEYWORD2
 readByte_cont	KEYWORD2
 readWord_cont	KEYWORD2
+waitTransmitComplete	KEYWORD2
 getInterruptNumber	KEYWORD2

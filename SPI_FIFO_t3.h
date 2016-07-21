@@ -29,7 +29,7 @@ and all alternative SPI pins on all Teensy 3.x CPU's
 #if (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__))
 	//check for the correct version of Teensyduino
 	#if (TEENSYDUINO < 129)
-		#error "Please upgrade your Teensyduino at altest version!"
+		#error "Please upgrade your Teensyduino at the latest version!"
 	#endif
 #else
 #error "SPI FIFO library works only with Teensy 3.0,3.1,3.2,3.4,3.5 or never!"
@@ -40,7 +40,10 @@ static SPISettings 	_spiSettings;
 
 class SPI_FIFO_t3 {
 	public:
+		SPI_FIFO_t3();//used for include in other libraries
 		SPI_FIFO_t3(const uint8_t csPin,const uint8_t dcPin=255,const uint8_t mosiPin=11,const uint8_t sclkPin=13,const uint8_t misoPin=255);
+		//this must be called before begin inside other libraries
+		void		postInstance(const uint8_t csPin,const uint8_t dcPin,const uint8_t mosiPin,const uint8_t sclkPin,const uint8_t misoPin);
 		bool		begin(SPISettings settings=SPISettings(30000000, MSBFIRST, SPI_MODE0),bool avoidInit=false);
 		void		setSpiSettings(SPISettings settings);
 		uint8_t 	getSPIbus(void);
@@ -53,6 +56,7 @@ class SPI_FIFO_t3 {
 		uint8_t		readByte_cont(void);
 		uint16_t	readWord_cont(void);
 		int 		getInterruptNumber(uint8_t pin);
+		void 		waitTransmitComplete(void);
 		
 	protected:
 		volatile uint8_t _pcs_data;
@@ -70,7 +74,7 @@ class SPI_FIFO_t3 {
 		void 		waitFifoNotFull(void);
 		void 		waitFifoEmpty(void);
 		void 		waitTransmitComplete(uint32_t mcr);
-		void 		waitTransmitComplete(void);
+		
 		void 		clearFifoBuffer(void);
 };
 
