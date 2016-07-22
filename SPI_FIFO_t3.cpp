@@ -300,47 +300,79 @@ void SPI_FIFO_t3::waitTransmitComplete(uint32_t mcr)
 	#endif
 }
 
-void SPI_FIFO_t3::clearFifoBuffer(void)
+void SPI_FIFO_t3::clearFifoBuffer(bool dataMode)
 {
 	#if defined(__MK20DX128__) || defined(__MK20DX256__)
 		// Push 4 bytes over SPI
+		if (dataMode){
 		KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 		waitFifoEmpty();    // wait for both queues to be empty.
 		KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 		KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 		KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+		} else {
+		KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+		waitFifoEmpty();    // wait for both queues to be empty.
+		KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+		KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+		KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+		}
 		// Wait for End of Queue
 		while ((KINETISK_SPI0.SR & SPI_SR_EOQF) == 0) ;
 		KINETISK_SPI0.SR = SPI_SR_EOQF;  // make sure it is clear
 	#else
 		if (_spiBus == 0){
 			// Push 4 bytes over SPI
+			if (dataMode){
 			KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			waitFifoEmpty();    // wait for both queues to be empty.
 			KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			KINETISK_SPI0.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			} else {
+			KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			waitFifoEmpty();    // wait for both queues to be empty.
+			KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			KINETISK_SPI0.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			}
 			// Wait for End of Queue
 			while ((KINETISK_SPI0.SR & SPI_SR_EOQF) == 0) ;
 			KINETISK_SPI0.SR = SPI_SR_EOQF;  // make sure it is clear
 		} else if (_spiBus == 1){
 			// Push 1 bytes over SPI
+			if (dataMode){
 			//KINETISK_SPI1.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			//waitFifoEmpty();    // wait for both queues to be empty.
 			//KINETISK_SPI1.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			//KINETISK_SPI1.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			KINETISK_SPI1.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			} else {
+			//KINETISK_SPI1.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			//waitFifoEmpty();    // wait for both queues to be empty.
+			//KINETISK_SPI1.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			//KINETISK_SPI1.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			KINETISK_SPI1.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			}
 			// Wait for End of Queue
 			while ((KINETISK_SPI1.SR & SPI_SR_EOQF) == 0) ;
 			KINETISK_SPI1.SR = SPI_SR_EOQF;  // make sure it is clear
 		#if defined(KINETISK_SPI2) && defined(__MK6XFXSPI2__)
 		} else {
 			// Push 1 bytes over SPI
+			if (dataMode){
 			//KINETISK_SPI2.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			//waitFifoEmpty();    // wait for both queues to be empty.
 			//KINETISK_SPI2.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			//KINETISK_SPI2.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
 			KINETISK_SPI2.PUSHR = 0 | (_pcs_data << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			} else {
+			//KINETISK_SPI2.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			//waitFifoEmpty();    // wait for both queues to be empty.
+			//KINETISK_SPI2.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			//KINETISK_SPI2.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_CONT;
+			KINETISK_SPI2.PUSHR = 0 | (_pcs_command << 16) | SPI_PUSHR_CTAS(0)| SPI_PUSHR_EOQ;
+			}
 			// Wait for End of Queue
 			while ((KINETISK_SPI2.SR & SPI_SR_EOQF) == 0) ;
 			KINETISK_SPI2.SR = SPI_SR_EOQF;  // make sure it is clear
@@ -492,10 +524,10 @@ void SPI_FIFO_t3::writeWord_last(uint16_t val,bool dataMode)
 	#endif
 }
 
-uint8_t SPI_FIFO_t3::readByte_cont(void)
+uint8_t SPI_FIFO_t3::readByte_cont(bool dataMode)
 {
 	uint8_t dummy __attribute__((unused));
-	clearFifoBuffer();
+	clearFifoBuffer(dataMode);
 	#if defined(__MK20DX128__) || defined(__MK20DX256__)
 		dummy = KINETISK_SPI0.POPR;
 		dummy = KINETISK_SPI0.POPR;
@@ -518,12 +550,12 @@ uint8_t SPI_FIFO_t3::readByte_cont(void)
 		return 0;
 }
 
-uint16_t SPI_FIFO_t3::readWord_cont(void)
+uint16_t SPI_FIFO_t3::readWord_cont(bool dataMode)
 {
 	uint8_t dummy __attribute__((unused));
 	uint8_t a = 0;
 	uint8_t b = 0;
-	clearFifoBuffer();
+	clearFifoBuffer(dataMode);
 	#if defined(__MK20DX128__) || defined(__MK20DX256__)
 		dummy = KINETISK_SPI0.POPR;
 		dummy = KINETISK_SPI0.POPR;

@@ -22,6 +22,8 @@ and all alternative SPI pins on all Teensy 3.x CPU's
 #ifndef _SPI_FIFOT3LIB_H_INCLUDED
 #define _SPI_FIFOT3LIB_H_INCLUDED
 
+
+#ifdef __cplusplus
 #include <Arduino.h>
 #include <SPI.h>
 
@@ -53,8 +55,8 @@ class SPI_FIFO_t3 {
 		void		writeByte_last(uint8_t val,bool dataMode=false);
 		void		writeWord_cont(uint16_t val,bool dataMode=false);
 		void		writeWord_last(uint16_t val,bool dataMode=false);
-		uint8_t		readByte_cont(void);
-		uint16_t	readWord_cont(void);
+		uint8_t		readByte_cont(bool dataMode=false);
+		uint16_t	readWord_cont(bool dataMode=false);
 		int 		getInterruptNumber(uint8_t pin);
 		void 		waitTransmitComplete(void);
 		
@@ -75,7 +77,8 @@ class SPI_FIFO_t3 {
 		void 		waitFifoEmpty(void);
 		void 		waitTransmitComplete(uint32_t mcr);
 		
-		void 		clearFifoBuffer(void);
+		void 		clearFifoBuffer(bool dataMode);
 };
 
+#endif
 #endif
