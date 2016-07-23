@@ -77,17 +77,17 @@ bool SPI_FIFO_t3::begin(SPISettings settings,bool avoidInit)
 				bitClear(_initError,1);
 			}
 		}
-	} else if ((_mosi == 0 || _mosi == 21) && (_sclk == 32 || _sclk == 20) && (_miso == 255 || _miso == 1 || _miso == 5)){
+	} else if ((_mosi == 0 || _mosi == 21 || _mosi == 59 || _mosi == 61) && (_sclk == 20 || _sclk == 32 || _sclk == 60) && (_miso == 255 || _miso == 1 || _miso == 5 || _miso == 59 || _miso == 61)){
 		_spiBus = 1;
+		if (_mosi == _miso){
+			bitClear(_initError,4);
+		}
 		if (!avoidInit) SPI1.begin();
 		SPI1.setMOSI(_mosi);
 		if (_miso != 255) SPI1.setMISO(_miso);
 		SPI1.setSCK(_sclk);
 		if (_dc != 255){//Only 1 pin can be handled in SPI1
-			if ((_cs != 6 && _cs != 31) && 
-			(_cs != 0 && _cs != 21) &&
-			(_cs != 32 && _cs != 20) &&
-			(_cs != 1 && _cs != 5)){//cs cannot use these pin since are reserved to dc,mosi,sclk and miso
+			if (_cs != _mosi && _cs != _sclk && _cs != _miso){//cs cannot use these pin since are reserved to dc,mosi,sclk and miso
 				pinMode(_cs, OUTPUT);//handle cs separately
 				digitalWriteFast(_cs,HIGH);//disable cs
 				if (SPI1.pinIsChipSelect(_dc)) {
@@ -108,20 +108,24 @@ bool SPI_FIFO_t3::begin(SPISettings settings,bool avoidInit)
 			}
 		}
 	#if defined(KINETISK_SPI2) && defined(__MK6XFXSPI2__)// SPI2 enabled?
-	} else if ((_mosi == 45) && (_sclk == 46) && (_miso == 255 || _miso == 44)){
+	} else if ((_mosi == 44 || _mosi == 52) && (_sclk == 46 || _sclk == 53) && (_miso == 255 || _miso == 45 || _miso == 51)){
 		_spiBus = 2;
 		if (!avoidInit) SPI2.begin();
 		SPI2.setMOSI(_mosi);
 		if (_miso != 255) SPI2.setMISO(_miso);
 		SPI2.setSCK(_sclk);
 		if (_dc != 255){//Only 1 pin can be handled in SPI2
-			pinMode(_cs, OUTPUT);//handle cs separately
-			digitalWriteFast(_cs,HIGH);//disable cs
-			if (SPI2.pinIsChipSelect(_dc)) {
-				_pcs_data = 0;
-				_pcs_command = _pcs_data | SPI2.setCS(_dc);
+			if (_cs != _mosi && _cs != _sclk && _cs != _miso){//cs cannot use these pin since are reserved to dc,mosi,sclk and miso
+				pinMode(_cs, OUTPUT);//handle cs separately
+				digitalWriteFast(_cs,HIGH);//disable cs
+				if (SPI2.pinIsChipSelect(_dc)) {
+					_pcs_data = 0;
+					_pcs_command = _pcs_data | SPI2.setCS(_dc);
+				} else {
+					bitClear(_initError,2);
+				}
 			} else {
-				bitClear(_initError,2);
+				bitClear(_initError,3);
 			}
 		} else {
 			if (SPI2.pinIsChipSelect(_cs)) {
