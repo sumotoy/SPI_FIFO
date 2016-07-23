@@ -25,6 +25,7 @@ and all alternative SPI pins on all Teensy 3.x CPU's
 
 #ifdef __cplusplus
 #include <Arduino.h>
+#include "pins_arduino.h"
 #include <SPI.h>
 
 
