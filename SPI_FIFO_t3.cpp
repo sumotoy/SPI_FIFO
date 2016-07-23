@@ -588,6 +588,57 @@ int SPI_FIFO_t3::getInterruptNumber(uint8_t pin)
 	return 255;
 }
 
+void SPI_FIFO_t3::usingInterrupt(uint8_t n) 
+{
+	#if defined(__MK20DX128__) || defined(__MK20DX256__)
+		SPI.usingInterrupt(n); 
+	#else
+		if (_spiBus == 0){
+			SPI.usingInterrupt(n); 
+		} else if (_spiBus == 1){	
+			SPI1.usingInterrupt(n); 
+		#if defined(KINETISK_SPI2) && defined(__MK6XFXSPI2__)
+		} else {
+			SPI2.usingInterrupt(n); 
+		#endif
+		}
+	#endif
+}
+
+void SPI_FIFO_t3::usingInterrupt(IRQ_NUMBER_t interruptName) 
+{
+	#if defined(__MK20DX128__) || defined(__MK20DX256__)
+		SPI.usingInterrupt(interruptName); 
+	#else
+		if (_spiBus == 0){
+			SPI.usingInterrupt(interruptName); 
+		} else if (_spiBus == 1){	
+			SPI1.usingInterrupt(interruptName); 
+		#if defined(KINETISK_SPI2) && defined(__MK6XFXSPI2__)
+		} else {
+			SPI2.usingInterrupt(interruptName); 
+		#endif
+		}
+	#endif
+}
+
+void SPI_FIFO_t3::notUsingInterrupt(IRQ_NUMBER_t interruptName) 
+{
+	#if defined(__MK20DX128__) || defined(__MK20DX256__)
+		SPI.notUsingInterrupt(interruptName); 
+	#else
+		if (_spiBus == 0){
+			SPI.notUsingInterrupt(interruptName); 
+		} else if (_spiBus == 1){	
+			SPI1.notUsingInterrupt(interruptName); 
+		#if defined(KINETISK_SPI2) && defined(__MK6XFXSPI2__)
+		} else {
+			SPI2.notUsingInterrupt(interruptName); 
+		#endif
+		}
+	#endif
+}
+
 /*
 
 void SPI_FIFO::printPacket(uint16_t data, uint8_t count)

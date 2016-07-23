@@ -59,6 +59,9 @@ class SPI_FIFO_t3 {
 		uint16_t	readWord_cont(bool dataMode=false);
 		int 		getInterruptNumber(uint8_t pin);
 		void 		waitTransmitComplete(void);
+		void 		usingInterrupt(uint8_t n);
+		void 		usingInterrupt(IRQ_NUMBER_t interruptName); 
+		void 		notUsingInterrupt(IRQ_NUMBER_t interruptName);
 		
 	protected:
 		volatile uint8_t _pcs_data;
