@@ -16,12 +16,11 @@ a flag called dataMode, if true the DC will set automatically.
 Library use SPI fifo for reading as well.
 In addition, this library support K64/K66 CPU and alternative SPI1 and SPI2 (when enabled),
 and all alternative SPI pins on all Teensy 3.x CPU's
- * This library works with: Teensy 3.0 / 3.1 / 3.2 / 3.45 / 3.5
+ * This library works with: Teensy 3.0 / 3.1 / 3.2 / 3.5 / 3.6
  */
  
 #ifndef _SPI_FIFOT3LIB_H_INCLUDED
 #define _SPI_FIFOT3LIB_H_INCLUDED
-
 
 #ifdef __cplusplus
 #include <Arduino.h>
@@ -35,7 +34,7 @@ and all alternative SPI pins on all Teensy 3.x CPU's
 		#error "Please upgrade your Teensyduino at the latest version!"
 	#endif
 #else
-#error "SPI FIFO library works only with Teensy 3.0,3.1,3.2,3.45,3.5 or never!"
+#error "SPI FIFO library works only with Teensy 3.0,3.1,3.2,3.5,3.6 or never!"
 #endif
 
 
