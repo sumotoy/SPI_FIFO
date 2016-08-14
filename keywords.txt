@@ -13,3 +13,5 @@ readByte_cont	KEYWORD2
 readWord_cont	KEYWORD2
 waitTransmitComplete	KEYWORD2
 getInterruptNumber	KEYWORD2
+usingInterrupt	KEYWORD2
+notUsingInterrupt	KEYWORD2
