@@ -2,6 +2,8 @@
 This is a test to create a Teensy 3.x SPI FIFO library that can be integrated in other libraries
 to have fast SPI without deal directly with register or complicated stuff.
 I have tried to keep simple but also powerful.
+I'm currently try to use a standard method to do this so I can use the same approach
+for other CPU's.
 Use is simple:
 
 	1) startTransaction
@@ -17,6 +19,27 @@ Library use SPI fifo for reading as well.
 In addition, this library support K64/K66 CPU and alternative SPI1 and SPI2 (when enabled),
 and all alternative SPI pins on all Teensy 3.x CPU's
  * This library works with: Teensy 3.0 / 3.1 / 3.2 / 3.5 / 3.6
+---------------------------------------------------------------------------------------------------------------------
+Version history:
+1.0: First beta.
+---------------------------------------------------------------------------------------------------------------------
+		Copyright (c) 2016, s.u.m.o.t.o.y [sumotoy(at)gmail.com]
+		Coded by: Max MC Costa
+---------------------------------------------------------------------------------------------------------------------
+Licence:
+	Licensed as GNU General Public License.
+    SPI_FIFO_t3 Library is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SPI_FIFO_t3 Library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
  
 #ifndef _SPI_FIFOT3LIB_H_INCLUDED
